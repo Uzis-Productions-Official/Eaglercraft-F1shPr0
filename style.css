@@ -19,12 +19,26 @@ body{
 /* Launcher */
 .center-screen{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center}
 .title{font-size:3rem; margin:0 0 .25rem; text-shadow:0 0 20px var(--teal)}
-.subtitle{opacity:.8; margin:.25rem 0 1rem}
+.subtitle{opacity:.85; margin:.25rem 0 1.25rem}
+.launch-card{
+  background:rgba(0,0,0,.35); border:1px solid #1a3a46; border-radius:16px;
+  padding:18px; box-shadow:0 8px 30px rgba(0,0,0,.45); min-width:320px
+}
 .launch-btn{
   background:var(--teal); color:#001017; border:0; padding:14px 28px; font-size:1.2rem;
-  border-radius:14px; cursor:pointer; box-shadow:0 0 18px var(--teal); transition:.2s
+  border-radius:14px; cursor:pointer; box-shadow:0 0 18px var(--teal); transition:.2s; width:100%;
 }
 .launch-btn:hover{transform:translateY(-1px); box-shadow:0 0 28px var(--teal)}
+.quick-actions{margin-top:14px; text-align:left}
+.qa-title{font-weight:800; color:var(--teal); margin-bottom:6px}
+.qa-row{display:flex; gap:8px}
+#directServer{flex:1; background:#071117; color:var(--text); border:1px solid #203846; border-radius:10px; padding:8px 10px}
+.btn{
+  background:#0e202b; color:var(--text); border:1px solid #204655; border-radius:10px; padding:8px 10px; cursor:pointer
+}
+.btn:hover{border-color:var(--teal)}
+.qa-saved{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px}
+.qa-saved .btn{padding:6px 8px}
 
 /* Game wrap */
 .game-wrap{position:relative; width:100vw; height:100vh}
@@ -45,22 +59,20 @@ body{
 
 /* Crosshair */
 .crosshair{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:0; height:0; pointer-events:none}
-.crosshair.plus::before, .crosshair.plus::after{
-  content:""; position:absolute; background:#fff8; filter:drop-shadow(0 0 3px #fff);
-}
+.crosshair.plus::before, .crosshair.plus::after{content:""; position:absolute; background:#fff8; filter:drop-shadow(0 0 3px #fff)}
 .crosshair.plus::before{width:24px; height:2px; left:-12px; top:-1px}
 .crosshair.plus::after{width:2px; height:24px; left:-1px; top:-12px}
 .crosshair.dot::before{content:""; position:absolute; width:4px; height:4px; border-radius:50%; background:#fff; box-shadow:0 0 6px #fff8}
 .crosshair.xhair::before{content:"✕"; font-size:18px; color:#fff8}
+.hidden{display:none}
 
 /* Fullbright overlay */
 .fullbright{position:absolute; inset:0; background:rgba(255,255,255,.08); mix-blend-mode:screen; pointer-events:none}
-.hidden{display:none}
 
 /* Client Menu */
 .menu-panel{
   position:fixed; inset:auto auto 6% 50%; transform:translateX(-50%) translateY(20px) scale(.98);
-  width:560px; max-height:80vh; overflow:auto; padding:16px 16px 20px;
+  width:620px; max-height:80vh; overflow:auto; padding:16px 16px 20px;
   background:var(--panel); border:2px solid var(--border); border-radius:16px;
   backdrop-filter: blur(6px); box-shadow:0 8px 40px rgba(0,0,0,.55);
   opacity:0; pointer-events:none; transition:opacity .25s, transform .25s;
@@ -82,13 +94,9 @@ body{
 .sw{display:block; margin:8px 0}
 .row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin:8px 0}
 .row input[type="range"]{width:60%}
-.btn{
-  background:#0e202b; color:var(--text); border:1px solid #204655; border-radius:8px; padding:8px 10px; cursor:pointer
-}
-.btn:hover{border-color:var(--teal)}
+
 .wp-head{display:flex; align-items:baseline; justify-content:space-between; margin-top:8px}
 .tiny{font-size:11px; opacity:.7}
 .wp-actions{display:flex; gap:8px; flex-wrap:wrap; margin:8px 0}
 .wp-list{display:grid; grid-template-columns:1fr auto; gap:6px 8px}
 .wp-item{padding:6px 8px; background:#0b151c; border:1px solid #1a2f37; border-radius:8px; font:600 12px/1.2 monospace}
-.wp-actions .btn, .tabs .tab{user-select:none}
