@@ -1,68 +1,31 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #111;
-  color: #fff;
-  text-align: center;
-  height: 100vh;
-  overflow: hidden;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>F1shPr0 Client (1.8.8)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Main Menu -->
+  <div id="menu">
+    <h1>Welcome to <span style="color:#4cafef;">F1shPr0</span></h1>
+    <button onclick="launchGame()">Launch Game</button>
+  </div>
 
-#menu {
-  margin-top: 20%;
-}
+  <!-- Game Container -->
+  <div id="game" style="display:none;">
+    <iframe id="gameFrame" src="" width="100%" height="100%" frameborder="0"></iframe>
+  </div>
 
-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: #4caf50;
-  color: white;
-  font-size: 16px;
-}
+  <!-- Client Options Menu (Right Shift) -->
+  <div id="clientMenu" class="hidden">
+    <h2>F1shPr0 Options</h2>
+    <p>(Press Right Shift to toggle this menu)</p>
+    <div id="optionsList">
+      <!-- Options will be generated dynamically -->
+    </div>
+  </div>
 
-button:hover {
-  background: #45a049;
-}
-
-#game {
-  width: 100%;
-  height: 100vh;
-}
-
-#gameFrame {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-/* Client Menu Overlay */
-#clientMenu {
-  position: fixed;
-  top: 10%;
-  right: 5%;
-  width: 300px;
-  max-height: 80%;
-  overflow-y: auto;
-  background: rgba(20,20,20,0.95);
-  border: 2px solid #4cafef;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 0 15px #4cafef;
-  z-index: 9999;
-  text-align: left;
-}
-
-#clientMenu.hidden {
-  display: none;
-}
-
-#clientMenu h2 {
-  margin-top: 0;
-  text-align: center;
-}
-
-.optionItem {
-  margin: 6px 0;
-}
+  <script src="script.js"></script>
+</body>
+</html>
