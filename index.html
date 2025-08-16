@@ -1,31 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>F1shPr0 Client (1.8.8)</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <!-- Main Menu -->
-  <div id="menu">
-    <h1>Welcome to <span style="color:#4cafef;">F1shPr0</span></h1>
-    <button onclick="launchGame()">Launch Game</button>
-  </div>
+function launchGame() {
+  document.getElementById("menu").style.display = "none";
+  document.getElementById("game").style.display = "block";
 
-  <!-- Game Container -->
-  <div id="game" style="display:none;">
-    <iframe id="gameFrame" src="" width="100%" height="100%" frameborder="0"></iframe>
-  </div>
+  // Must match exactly: "Release 1.8.8.html"
+  document.getElementById("gameFrame").src = "eaglercraft/Release 1.8.8.html";
+}
 
-  <!-- Client Options Menu (Right Shift) -->
-  <div id="clientMenu" class="hidden">
-    <h2>F1shPr0 Options</h2>
-    <p>(Press Right Shift to toggle this menu)</p>
-    <div id="optionsList">
-      <!-- Options will be generated dynamically -->
-    </div>
-  </div>
-
-  <script src="script.js"></script>
-</body>
-</html>
+// Right Shift toggles the client menu
+document.addEventListener("keydown", function(e) {
+  if (e.code === "ShiftRight") {
+    let menu = document.getElementById("clientMenu");
+    menu.style.display = (menu.style.display === "none") ? "block" : "none";
+  }
+});
