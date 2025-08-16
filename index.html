@@ -4,16 +4,30 @@
   <meta charset="UTF-8" />
   <title>F1shPr0 Client (1.8.8)</title>
   <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
 </head>
 <body>
-  <!-- Launcher -->
+  <!-- Front Launcher (pre-game) -->
   <div id="menu" class="center-screen">
     <h1 class="title">F1shPr0 Client</h1>
-    <p class="subtitle">Clean, fast, legit QoL for Eaglercraft 1.8.8</p>
-    <button class="launch-btn" onclick="launchGame()">Launch Game (1.8.8)</button>
+    <p class="subtitle">Legit QoL overlays & tools for Eaglercraft 1.8.8</p>
+
+    <div class="launch-card">
+      <button class="launch-btn" onclick="launchGame()">Launch Game (1.8.8)</button>
+
+      <!-- Optional “Front Menu+” quick actions -->
+      <div class="quick-actions">
+        <div class="qa-title">Front Menu+</div>
+        <div class="qa-row">
+          <input id="directServer" placeholder="Direct Connect: server:port (optional)">
+          <button class="btn" onclick="rememberServer()">Save</button>
+        </div>
+        <div id="savedServers" class="qa-saved"></div>
+      </div>
+    </div>
   </div>
 
-  <!-- Game -->
+  <!-- Game viewport -->
   <div id="game" class="game-wrap" style="display:none;">
     <iframe id="gameFrame" width="100%" height="100%" frameborder="0"></iframe>
 
@@ -26,11 +40,11 @@
     <div id="overlay-waypoints" class="hud hud-tr"></div>
     <canvas id="minimap" class="hud hud-br" width="220" height="220"></canvas>
     <div id="zoomIndicator" class="hud hud-center"></div>
-    <div id="crosshair" class="crosshair"></div>
+    <div id="crosshair" class="crosshair hidden"></div>
     <div id="fullbright" class="fullbright hidden"></div>
   </div>
 
-  <!-- Client Menu -->
+  <!-- Client Menu (Right Shift open • Right Ctrl close) -->
   <div id="clientMenu" class="menu-panel">
     <div class="menu-head">
       <div class="brand">F1shPr0</div>
@@ -45,19 +59,21 @@
       <button class="tab" data-tab="about">About</button>
     </div>
 
+    <!-- HUD tab -->
     <div class="tabview active" id="tab-hud">
       <label class="sw"><input type="checkbox" data-setting="fps"> FPS Counter</label>
       <label class="sw"><input type="checkbox" data-setting="ping"> Ping Display</label>
       <label class="sw"><input type="checkbox" data-setting="coords"> Coordinates HUD</label>
       <label class="sw"><input type="checkbox" data-setting="clock"> Clock</label>
       <label class="sw"><input type="checkbox" data-setting="session"> Session Timer</label>
-      <label class="sw"><input type="checkbox" data-setting="zoomKey"> Hold‑to‑Zoom (C)</label>
+      <label class="sw"><input type="checkbox" data-setting="zoomKey"> Hold-to-Zoom (C)</label>
       <div class="row">
         <span>Zoom FOV:</span>
         <input type="range" min="10" max="80" value="30" data-setting="zoomFov">
       </div>
     </div>
 
+    <!-- Navigation tab -->
     <div class="tabview" id="tab-nav">
       <label class="sw"><input type="checkbox" data-setting="minimap"> Minimap</label>
       <label class="sw"><input type="checkbox" data-setting="radar"> Radar Ring</label>
@@ -72,7 +88,7 @@
 
       <div class="wp-head">
         <div>Waypoints</div>
-        <div class="tiny">Hotkeys: B = add, L = list/toggle</div>
+        <div class="tiny">Hotkeys: B = add current, L = show/hide list</div>
       </div>
       <div class="wp-actions">
         <button class="btn" id="addWpBtn">Add Current (B)</button>
@@ -83,6 +99,7 @@
       <div id="wpList" class="wp-list"></div>
     </div>
 
+    <!-- Visual tab -->
     <div class="tabview" id="tab-visual">
       <label class="sw"><input type="checkbox" data-setting="fullbright"> Fullbright Overlay</label>
       <label class="sw"><input type="checkbox" data-setting="customCrosshair"> Custom Crosshair</label>
@@ -94,22 +111,24 @@
           <option value="xhair">X</option>
         </select>
       </div>
-      <label class="sw"><input type="checkbox" data-setting="chunkGrid"> Chunk Grid (UI overlay)</label>
+      <label class="sw"><input type="checkbox" data-setting="chunkGrid"> Chunk Grid (UI)</label>
     </div>
 
+    <!-- UI tab -->
     <div class="tabview" id="tab-ui">
       <div class="row">
         <span>GUI Scale:</span>
         <input type="range" min="80" max="140" value="100" data-setting="guiScale">
       </div>
-      <label class="sw"><input type="checkbox" data-setting="compactChat"> Compact Chat</label>
+      <label class="sw"><input type="checkbox" data-setting="compactChat"> Compact Chat (UI)</label>
       <label class="sw"><input type="checkbox" data-setting="chatTimestamps"> Chat Timestamps (UI)</label>
     </div>
 
+    <!-- About tab -->
     <div class="tabview" id="tab-about">
-      <p><b>F1shPr0</b> — legit client-side QoL overlays for Eaglercraft 1.8.8.</p>
-      <p>No cheats, no ESP/wallhacks — server‑friendly features only.</p>
+      <p><b>F1shPr0</b> — legit overlays & QoL for Eaglercraft 1.8.8.</p>
       <p>Hotkeys: Right Shift (open), Right Ctrl (close), B (add waypoint), L (toggle list), C (hold zoom).</p>
+      <p>No cheats: no ESP/walls. Everything here uses client-side UI.</p>
     </div>
   </div>
 
