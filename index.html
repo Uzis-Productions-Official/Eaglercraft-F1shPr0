@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <title>F1shPr0 Client (1.8.8)</title>
-  <link rel="stylesheet" href="style.css" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Front Launcher (pre-game) -->
+  <!-- Launcher -->
   <div id="menu" class="center-screen">
     <h1 class="title">F1shPr0 Client</h1>
     <p class="subtitle">Legit QoL overlays & tools for Eaglercraft 1.8.8</p>
@@ -15,7 +15,7 @@
     <div class="launch-card">
       <button class="launch-btn" onclick="launchGame()">Launch Game (1.8.8)</button>
 
-      <!-- Optional “Front Menu+” quick actions -->
+      <!-- Front Menu+ quick actions -->
       <div class="quick-actions">
         <div class="qa-title">Front Menu+</div>
         <div class="qa-row">
@@ -37,101 +37,173 @@
     <div id="overlay-coords" class="hud hud-tl" style="top: 56px;"></div>
     <div id="overlay-clock" class="hud hud-tl" style="top: 84px;"></div>
     <div id="overlay-session" class="hud hud-tl" style="top: 112px;"></div>
+
+    <div id="overlay-armor" class="hud hud-bl"></div>
+    <div id="overlay-tools" class="hud hud-bl" style="bottom: 28px;"></div>
+    <div id="overlay-potions" class="hud hud-bl" style="bottom: 56px;"></div>
+
     <div id="overlay-waypoints" class="hud hud-tr"></div>
-    <canvas id="minimap" class="hud hud-br" width="220" height="220"></canvas>
+    <canvas id="minimap" class="hud hud-br" width="240" height="240"></canvas>
+    <canvas id="breadcrumbs" class="hud hud-br" width="240" height="240" style="pointer-events:none; left:auto; right:10px; bottom:10px;"></canvas>
+
     <div id="zoomIndicator" class="hud hud-center"></div>
     <div id="crosshair" class="crosshair hidden"></div>
     <div id="fullbright" class="fullbright hidden"></div>
   </div>
 
-  <!-- Client Menu (Right Shift open • Right Ctrl close) -->
+  <!-- Client Menu (Right Shift open • Right Ctrl close by default) -->
   <div id="clientMenu" class="menu-panel">
     <div class="menu-head">
       <div class="brand">F1shPr0</div>
-      <div class="hint">Right Shift = open • Right Ctrl = close</div>
+      <div class="hint">Open/Close: configurable (default Right Shift / Right Ctrl)</div>
     </div>
 
     <div class="tabs">
-      <button class="tab active" data-tab="hud">HUD</button>
-      <button class="tab" data-tab="nav">Navigation</button>
-      <button class="tab" data-tab="visual">Visual</button>
-      <button class="tab" data-tab="ui">UI</button>
+      <button class="tab active" data-tab="visuals">Visuals</button>
+      <button class="tab" data-tab="world">World</button>
+      <button class="tab" data-tab="player">Player</button>
+      <button class="tab" data-tab="chat">Chat</button>
+      <button class="tab" data-tab="tools">Tools</button>
+      <button class="tab" data-tab="settings">Settings</button>
       <button class="tab" data-tab="about">About</button>
     </div>
 
-    <!-- HUD tab -->
-    <div class="tabview active" id="tab-hud">
-      <label class="sw"><input type="checkbox" data-setting="fps"> FPS Counter</label>
-      <label class="sw"><input type="checkbox" data-setting="ping"> Ping Display</label>
-      <label class="sw"><input type="checkbox" data-setting="coords"> Coordinates HUD</label>
-      <label class="sw"><input type="checkbox" data-setting="clock"> Clock</label>
-      <label class="sw"><input type="checkbox" data-setting="session"> Session Timer</label>
-      <label class="sw"><input type="checkbox" data-setting="zoomKey"> Hold-to-Zoom (C)</label>
-      <div class="row">
-        <span>Zoom FOV:</span>
-        <input type="range" min="10" max="80" value="30" data-setting="zoomFov">
+    <!-- VISUALS -->
+    <div class="tabview active" id="tab-visuals">
+      <div class="group"><div class="gtitle">HUD</div>
+        <label class="sw"><input type="checkbox" data-setting="fps"> FPS Counter</label>
+        <label class="sw"><input type="checkbox" data-setting="ping"> Ping Display</label>
+        <label class="sw"><input type="checkbox" data-setting="coords"> Coordinates HUD</label>
+        <label class="sw"><input type="checkbox" data-setting="clock"> Clock</label>
+        <label class="sw"><input type="checkbox" data-setting="session"> Session Timer</label>
+        <label class="sw"><input type="checkbox" data-setting="armorHud"> Armor Durability HUD</label>
+        <label class="sw"><input type="checkbox" data-setting="toolsHud"> Tools Durability HUD</label>
+        <label class="sw"><input type="checkbox" data-setting="potionsHud"> Potion Effects HUD</label>
+      </div>
+
+      <div class="group"><div class="gtitle">Minimap & Radar</div>
+        <label class="sw"><input type="checkbox" data-setting="minimap"> Minimap</label>
+        <label class="sw"><input type="checkbox" data-setting="radar"> Radar Ring</label>
+        <label class="sw"><input type="checkbox" data-setting="breadcrumbs"> Breadcrumb Trail</label>
+        <div class="row"><span>Minimap Zoom</span>
+          <input type="range" min="2" max="36" value="10" data-setting="mapZoom">
+        </div>
+        <div class="row"><span>Marker Size</span>
+          <input type="range" min="2" max="8" value="4" data-setting="markerSize">
+        </div>
+        <label class="sw"><input type="checkbox" data-setting="chunkGrid"> Chunk Grid (UI)</label>
+      </div>
+
+      <div class="group"><div class="gtitle">Look & Feel</div>
+        <label class="sw"><input type="checkbox" data-setting="fullbright"> Fullbright Overlay</label>
+        <label class="sw"><input type="checkbox" data-setting="customCrosshair"> Custom Crosshair</label>
+        <div class="row"><span>Crosshair Style</span>
+          <select data-setting="crosshairStyle">
+            <option value="plus">Plus</option>
+            <option value="dot">Dot</option>
+            <option value="xhair">X</option>
+          </select>
+        </div>
+        <label class="sw"><input type="checkbox" data-setting="zoomKey"> Hold-to-Zoom (default C)</label>
+        <div class="row"><span>Zoom FOV (UI)</span>
+          <input type="range" min="10" max="80" value="30" data-setting="zoomFov">
+        </div>
       </div>
     </div>
 
-    <!-- Navigation tab -->
-    <div class="tabview" id="tab-nav">
-      <label class="sw"><input type="checkbox" data-setting="minimap"> Minimap</label>
-      <label class="sw"><input type="checkbox" data-setting="radar"> Radar Ring</label>
-      <div class="row">
-        <span>Minimap Zoom:</span>
-        <input type="range" min="2" max="32" value="8" data-setting="mapZoom">
-      </div>
-      <div class="row">
-        <span>Marker Size:</span>
-        <input type="range" min="2" max="8" value="4" data-setting="markerSize">
+    <!-- WORLD -->
+    <div class="tabview" id="tab-world">
+      <div class="group"><div class="gtitle">Waypoints</div>
+        <div class="row">
+          <button class="btn" id="addWpBtn">Add Current (B)</button>
+          <button class="btn" id="exportWpBtn">Export JSON</button>
+          <input type="file" id="importWpFile" accept="application/json" hidden>
+          <button class="btn" id="importWpBtn">Import JSON</button>
+        </div>
+        <div class="row">
+          <span>Auto Death Waypoint</span>
+          <input type="checkbox" data-setting="autoDeathWp">
+        </div>
+        <div id="wpList" class="wp-list"></div>
       </div>
 
-      <div class="wp-head">
-        <div>Waypoints</div>
-        <div class="tiny">Hotkeys: B = add current, L = show/hide list</div>
+      <div class="group"><div class="gtitle">World Info</div>
+        <label class="sw"><input type="checkbox" data-setting="dayClock"> In-Game Day Clock (UI)</label>
+        <label class="sw"><input type="checkbox" data-setting="yLevelAlert"> Y-Level Alert (UI)</label>
       </div>
-      <div class="wp-actions">
-        <button class="btn" id="addWpBtn">Add Current (B)</button>
-        <button class="btn" id="exportWpBtn">Export JSON</button>
-        <input type="file" id="importWpFile" accept="application/json" hidden>
-        <button class="btn" id="importWpBtn">Import JSON</button>
-      </div>
-      <div id="wpList" class="wp-list"></div>
     </div>
 
-    <!-- Visual tab -->
-    <div class="tabview" id="tab-visual">
-      <label class="sw"><input type="checkbox" data-setting="fullbright"> Fullbright Overlay</label>
-      <label class="sw"><input type="checkbox" data-setting="customCrosshair"> Custom Crosshair</label>
-      <div class="row">
-        <span>Crosshair Style:</span>
-        <select data-setting="crosshairStyle">
-          <option value="plus">Plus</option>
-          <option value="dot">Dot</option>
-          <option value="xhair">X</option>
-        </select>
+    <!-- PLAYER -->
+    <div class="tabview" id="tab-player">
+      <div class="group"><div class="gtitle">Movement</div>
+        <label class="sw"><input type="checkbox" data-setting="autoSprint"> Auto Sprint (UI)</label>
+        <label class="sw"><input type="checkbox" data-setting="autoSneak"> Auto Sneak (UI)</label>
       </div>
-      <label class="sw"><input type="checkbox" data-setting="chunkGrid"> Chunk Grid (UI)</label>
+
+      <div class="group"><div class="gtitle">Inventory</div>
+        <label class="sw"><input type="checkbox" data-setting="quickSort"> QuickSort Button (UI)</label>
+        <label class="sw"><input type="checkbox" data-setting="equipBest"> Quick Equip Best (UI)</label>
+      </div>
+
+      <div class="group"><div class="gtitle">Macros</div>
+        <div class="row"><span>Macro 1 Key</span><input class="keycap" id="macro1Key" value="F6" readonly></div>
+        <div class="row"><span>Macro 1 Cmds (; separated)</span><input id="macro1Cmds" placeholder="/spawn; /msg friend hi"></div>
+        <div class="row"><span>Macro 2 Key</span><input class="keycap" id="macro2Key" value="F7" readonly></div>
+        <div class="row"><span>Macro 2 Cmds</span><input id="macro2Cmds" placeholder="/home"></div>
+        <button class="btn" id="saveMacrosBtn">Save Macros</button>
+      </div>
     </div>
 
-    <!-- UI tab -->
-    <div class="tabview" id="tab-ui">
-      <div class="row">
-        <span>GUI Scale:</span>
-        <input type="range" min="80" max="140" value="100" data-setting="guiScale">
-      </div>
-      <label class="sw"><input type="checkbox" data-setting="compactChat"> Compact Chat (UI)</label>
+    <!-- CHAT -->
+    <div class="tabview" id="tab-chat">
       <label class="sw"><input type="checkbox" data-setting="chatTimestamps"> Chat Timestamps (UI)</label>
+      <label class="sw"><input type="checkbox" data-setting="compactChat"> Compact Chat (UI)</label>
+      <div class="group"><div class="gtitle">Highlights & Filters</div>
+        <div class="row"><span>Highlight Keywords</span><input id="chatHighlights" placeholder="comma,separated,words"></div>
+        <div class="row"><span>Mute Keywords</span><input id="chatMutes" placeholder="annoying,ads,bots"></div>
+        <label class="sw"><input type="checkbox" data-setting="pingSound"> Sound on highlight</label>
+      </div>
     </div>
 
-    <!-- About tab -->
+    <!-- TOOLS -->
+    <div class="tabview" id="tab-tools">
+      <label class="sw"><input type="checkbox" data-setting="autoReconnect"> Auto Reconnect (UI)</label>
+      <label class="sw"><input type="checkbox" data-setting="latencyGraph"> Latency Graph (UI)</label>
+      <div class="row"><span>Screenshot Hotkey</span><input class="keycap" id="screenshotKey" value="F2" readonly></div>
+      <button class="btn" id="exportCfgBtn">Export Config</button>
+      <input type="file" id="importCfgFile" accept="application/json" hidden>
+      <button class="btn" id="importCfgBtn">Import Config</button>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="tabview" id="tab-settings">
+      <div class="group"><div class="gtitle">Theme & Scale</div>
+        <div class="row"><span>GUI Scale</span><input type="range" min="80" max="140" value="100" data-setting="guiScale"></div>
+        <div class="row"><span>Theme</span>
+          <select id="themeSelect">
+            <option value="teal">Teal Neon</option>
+            <option value="violet">Violet Flux</option>
+            <option value="amber">Amber Grid</option>
+            <option value="mono">Mono Dark</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="group"><div class="gtitle">Keybinds</div>
+        <div class="row"><span>Open Menu Key</span><input class="keycap" id="openKey" value="ShiftRight" readonly></div>
+        <div class="row"><span>Close Menu Key</span><input class="keycap" id="closeKey" value="ControlRight" readonly></div>
+        <div class="row"><span>Hold-Zoom Key</span><input class="keycap" id="holdZoomKey" value="KeyC" readonly></div>
+      </div>
+    </div>
+
+    <!-- ABOUT -->
     <div class="tabview" id="tab-about">
-      <p><b>F1shPr0</b> — legit overlays & QoL for Eaglercraft 1.8.8.</p>
-      <p>Hotkeys: Right Shift (open), Right Ctrl (close), B (add waypoint), L (toggle list), C (hold zoom).</p>
-      <p>No cheats: no ESP/walls. Everything here uses client-side UI.</p>
+      <p><b>F1shPr0</b> — polished, legit overlays & QoL for Eaglercraft 1.8.8.</p>
+      <p>Hotkeys (default): Right Shift (open), Right Ctrl (close), C (hold zoom), B (add waypoint), L (toggle waypoint list).</p>
+      <p>No cheats/wallhacks/ESP. Everything here is UI-level and server-friendly.</p>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
