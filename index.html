@@ -15,7 +15,6 @@
     <div class="launch-card">
       <button class="launch-btn" onclick="launchGame()">Launch Game (1.8.8)</button>
 
-      <!-- Front Menu+ quick actions -->
       <div class="quick-actions">
         <div class="qa-title">Front Menu+</div>
         <div class="qa-row">
@@ -29,9 +28,13 @@
 
   <!-- Game viewport -->
   <div id="game" class="game-wrap" style="display:none;">
-    <iframe id="gameFrame" width="100%" height="100%" frameborder="0"></iframe>
+    <!-- Click-to-focus hint (never blocks input) -->
+    <div id="focusHint" class="focus-hint">Click game to focus</div>
 
-    <!-- HUD overlays -->
+    <!-- IMPORTANT: tabindex lets iframe receive focus on click in some browsers -->
+    <iframe id="gameFrame" tabindex="0" width="100%" height="100%" frameborder="0"></iframe>
+
+    <!-- HUD overlays (ALL are click-through) -->
     <div id="overlay-fps" class="hud hud-tl"></div>
     <div id="overlay-ping" class="hud hud-tl" style="top: 28px;"></div>
     <div id="overlay-coords" class="hud hud-tl" style="top: 56px;"></div>
@@ -44,18 +47,23 @@
 
     <div id="overlay-waypoints" class="hud hud-tr"></div>
     <canvas id="minimap" class="hud hud-br" width="240" height="240"></canvas>
-    <canvas id="breadcrumbs" class="hud hud-br" width="240" height="240" style="pointer-events:none; left:auto; right:10px; bottom:10px;"></canvas>
+    <canvas id="breadcrumbs" class="hud hud-br" width="240" height="240" style="left:auto; right:10px; bottom:10px;"></canvas>
 
     <div id="zoomIndicator" class="hud hud-center"></div>
     <div id="crosshair" class="crosshair hidden"></div>
     <div id="fullbright" class="fullbright hidden"></div>
   </div>
 
-  <!-- Client Menu (Right Shift open • Right Ctrl close by default) -->
+  <!-- Backdrop (click to close menu) -->
+  <div id="menuBackdrop" class="backdrop"></div>
+
+  <!-- Client Menu -->
   <div id="clientMenu" class="menu-panel">
     <div class="menu-head">
       <div class="brand">F1shPr0</div>
-      <div class="hint">Open/Close: configurable (default Right Shift / Right Ctrl)</div>
+      <div class="hint">Open/Close: Right Shift / Right Ctrl (default)</div>
+      <div class="spacer"></div>
+      <button id="pinMenuBtn" class="btn micro">Pin</button>
     </div>
 
     <div class="tabs">
@@ -79,6 +87,7 @@
         <label class="sw"><input type="checkbox" data-setting="armorHud"> Armor Durability HUD</label>
         <label class="sw"><input type="checkbox" data-setting="toolsHud"> Tools Durability HUD</label>
         <label class="sw"><input type="checkbox" data-setting="potionsHud"> Potion Effects HUD</label>
+        <label class="sw"><input type="checkbox" data-setting="pauseOverlays"> Pause all overlays when game not focused</label>
       </div>
 
       <div class="group"><div class="gtitle">Minimap & Radar</div>
@@ -124,6 +133,10 @@
           <span>Auto Death Waypoint</span>
           <input type="checkbox" data-setting="autoDeathWp">
         </div>
+        <div class="row">
+          <span>Show Waypoint Overlay</span>
+          <input type="checkbox" data-setting="showWpList">
+        </div>
         <div id="wpList" class="wp-list"></div>
       </div>
 
@@ -138,6 +151,7 @@
       <div class="group"><div class="gtitle">Movement</div>
         <label class="sw"><input type="checkbox" data-setting="autoSprint"> Auto Sprint (UI)</label>
         <label class="sw"><input type="checkbox" data-setting="autoSneak"> Auto Sneak (UI)</label>
+        <label class="sw"><input type="checkbox" data-setting="hideCursor"> Hide mouse cursor when game is focused</label>
       </div>
 
       <div class="group"><div class="gtitle">Inventory</div>
