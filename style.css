@@ -1,34 +1,71 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #111;
-  color: #eee;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: white;
+  overflow: hidden;
+}
+
+.center-screen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   text-align: center;
 }
 
-#menu {
-  margin-top: 20%;
+.title {
+  font-size: 3em;
+  margin-bottom: 20px;
+  text-shadow: 0px 0px 20px #00eaff;
 }
 
-button {
-  padding: 10px 20px;
-  font-size: 18px;
-  background: #333;
-  color: #fff;
+.launch-btn {
+  background: #00eaff;
+  color: black;
+  padding: 15px 30px;
+  font-size: 1.5em;
   border: none;
-  border-radius: 6px;
+  border-radius: 12px;
   cursor: pointer;
-}
-button:hover {
-  background: #555;
+  box-shadow: 0px 0px 15px #00eaff;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
-#clientMenu {
+.launch-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 0px 25px #00eaff;
+}
+
+/* Client Menu */
+.menu-panel {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background: rgba(20,20,20,0.9);
-  padding: 15px;
-  border-radius: 8px;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  padding: 20px;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #00eaff;
+  border-radius: 16px;
   text-align: left;
+  box-shadow: 0px 0px 30px rgba(0, 234, 255, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s ease;
+}
+
+.menu-panel h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.menu-panel.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: all;
+}
+
+.hidden {
+  display: block;
 }
