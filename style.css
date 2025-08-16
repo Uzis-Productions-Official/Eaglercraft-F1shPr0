@@ -13,15 +13,11 @@ body{
 }
 
 /* Launcher */
-.center-screen{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; z-index:1}
-.title{font-size:3rem; margin:0 0 .25rem; text-shadow:0 0 20px var(--teal)}
+.center-screen{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; z-index:2}
+.title{font-size:3rem; margin:0 0 .25rem; text-shadow:0 0 18px var(--teal)}
 .subtitle{opacity:.85; margin:.25rem 0 1.25rem}
-.launch-card{background:rgba(0,0,0,.35); border:1px solid #1a3a46; border-radius:16px;
-  padding:18px; box-shadow:0 8px 30px rgba(0,0,0,.45); min-width:330px}
-.launch-btn{
-  background:var(--teal); color:#001017; border:0; padding:14px 28px; font-size:1.2rem;
-  border-radius:14px; cursor:pointer; box-shadow:0 0 18px var(--teal); transition:.2s; width:100%;
-}
+.launch-card{background:rgba(0,0,0,.35); border:1px solid #1a3a46; border-radius:16px; padding:18px; min-width:330px; box-shadow:0 8px 30px rgba(0,0,0,.45)}
+.launch-btn{background:var(--teal); color:#001017; border:0; padding:14px 28px; font-size:1.2rem; border-radius:14px; cursor:pointer; box-shadow:0 0 18px var(--teal); transition:.2s; width:100%}
 .launch-btn:hover{transform:translateY(-1px); box-shadow:0 0 28px var(--teal)}
 .quick-actions{margin-top:14px; text-align:left}
 .qa-title{font-weight:800; color:var(--teal); margin-bottom:6px}
@@ -33,34 +29,29 @@ body{
 .qa-saved{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px}
 .qa-saved .btn{padding:6px 8px}
 
-/* Game wrap */
-.game-wrap{position:relative; width:100vw; height:100vh; z-index:0}
-#gameStage{
-  position:absolute; inset:0; overflow:hidden; /* container we scale */
-  image-rendering: pixelated; /* crisp upscaling */
-}
+/* Game wrap fills screen */
+.game-wrap{position:fixed; inset:0; z-index:1}
+#gameStage{position:absolute; inset:0; overflow:hidden; image-rendering:pixelated}
 #gameFrame{
-  position:absolute; left:0; top:0; border:none; will-change: transform, width, height;
+  position:absolute; left:0; top:0; border:none;
+  will-change: transform, width, height;
 }
 
 /* Focus hint */
 .focus-hint{
   position:absolute; left:50%; top:16px; transform:translateX(-50%);
   background:rgba(0,0,0,.5); border:1px solid #1b3a44; padding:6px 10px; border-radius:8px;
-  font:700 12px/1.2 monospace; color:#cfefff; z-index:1; pointer-events:none; opacity:.85;
+  font:700 12px/1.2 monospace; color:#cfefff; z-index:2; pointer-events:none; opacity:.9;
 }
 
 /* HUD (click-through) */
-.hud{
-  position:absolute; font:700 14px/1.2 monospace; color:var(--teal); text-shadow:1px 1px 2px #000; z-index:2;
-  pointer-events:none;
-}
+.hud{position:absolute; font:700 14px/1.2 monospace; color:var(--teal); text-shadow:1px 1px 2px #000; z-index:2; pointer-events:none}
 .hud-tl{left:10px; top:10px}
 .hud-tr{right:10px; top:10px; max-width:32vw; text-align:right}
 .hud-br{right:10px; bottom:10px}
-.hud-bl{left:10px; bottom:10px}
 .hud-center{left:50%; top:50%; transform:translate(-50%,-50%); font-size:24px}
 
+/* Minimap/breadcrumbs frames */
 #minimap,#breadcrumbs{
   border:2px solid var(--teal); border-radius:10px; background:rgba(0,0,0,.6);
   box-shadow:0 0 16px rgba(0,234,255,.3); pointer-events:none;
@@ -76,21 +67,16 @@ body{
 .hidden{display:none}
 .fullbright{position:absolute; inset:0; background:rgba(255,255,255,.08); mix-blend-mode:screen; pointer-events:none}
 
-/* Backdrop */
-.backdrop{
-  position:fixed; inset:0; background:rgba(6,10,14,.55); backdrop-filter: blur(2px);
-  z-index:9998; opacity:0; pointer-events:none; transition:opacity .2s;
-}
+/* Backdrop + Menu panel */
+.backdrop{position:fixed; inset:0; background:rgba(6,10,14,.55); backdrop-filter: blur(2px); z-index:9998; opacity:0; pointer-events:none; transition:opacity .2s}
 .backdrop.show{opacity:1; pointer-events:auto}
 
-/* Client Menu */
 .menu-panel{
   position:fixed; inset:auto auto 5% 50%; transform:translateX(-50%) translateY(20px) scale(.98);
   width:780px; max-height:82vh; overflow:auto; padding:16px 16px 20px;
   background:var(--panel); border:2px solid var(--border); border-radius:16px;
   backdrop-filter: blur(6px); box-shadow:0 8px 40px rgba(0,0,0,.55);
-  opacity:0; pointer-events:none; transition:opacity .25s, transform .25s;
-  z-index:9999;
+  opacity:0; pointer-events:none; transition:opacity .25s, transform .25s; z-index:9999;
 }
 .menu-panel.show{opacity:1; pointer-events:auto; transform:translateX(-50%) translateY(0) scale(1)}
 .menu-head{display:flex; align-items:center; gap:8px; margin-bottom:8px}
@@ -108,7 +94,7 @@ body{
 .gtitle{font-weight:800; color:var(--teal); margin-bottom:6px}
 .sw{display:block; margin:8px 0}
 .row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin:8px 0}
-.row input[type="range"], .row select, .row input[type="text"], .row input.keycap{width:55%}
+.row input[type="range"], .row select, .row input.keycap{width:55%}
 input.keycap{background:#0f1b23; color:#fff; border:1px solid #204655; border-radius:8px; padding:8px 10px; text-align:center; cursor:pointer}
 
 /* Waypoints list */
