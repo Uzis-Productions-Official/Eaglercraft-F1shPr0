@@ -10,7 +10,7 @@
   <!-- Launcher -->
   <div id="menu" class="center-screen">
     <h1 class="title">F1shPr0 Client</h1>
-    <p class="subtitle">Legit QoL overlays & tools for Eaglercraft 1.8.8</p>
+    <p class="subtitle">Legit QoL overlays & performance tools for Eaglercraft 1.8.8</p>
 
     <div class="launch-card">
       <button class="launch-btn" onclick="launchGame()">Launch Game (1.8.8)</button>
@@ -28,11 +28,13 @@
 
   <!-- Game viewport -->
   <div id="game" class="game-wrap" style="display:none;">
-    <!-- Click-to-focus hint (never blocks input) -->
+    <!-- Focus hint (never blocks input) -->
     <div id="focusHint" class="focus-hint">Click game to focus</div>
 
-    <!-- IMPORTANT: tabindex lets iframe receive focus on click in some browsers -->
-    <iframe id="gameFrame" tabindex="0" width="100%" height="100%" frameborder="0"></iframe>
+    <!-- NOTE: The iframe will be dynamically sized for FPS boost (render scale) -->
+    <div id="gameStage">
+      <iframe id="gameFrame" tabindex="0" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
 
     <!-- HUD overlays (ALL are click-through) -->
     <div id="overlay-fps" class="hud hud-tl"></div>
@@ -84,9 +86,9 @@
         <label class="sw"><input type="checkbox" data-setting="coords"> Coordinates HUD</label>
         <label class="sw"><input type="checkbox" data-setting="clock"> Clock</label>
         <label class="sw"><input type="checkbox" data-setting="session"> Session Timer</label>
-        <label class="sw"><input type="checkbox" data-setting="armorHud"> Armor Durability HUD</label>
-        <label class="sw"><input type="checkbox" data-setting="toolsHud"> Tools Durability HUD</label>
-        <label class="sw"><input type="checkbox" data-setting="potionsHud"> Potion Effects HUD</label>
+        <label class="sw"><input type="checkbox" data-setting="armorHud"> Armor Durability HUD (UI)</label>
+        <label class="sw"><input type="checkbox" data-setting="toolsHud"> Tools Durability HUD (UI)</label>
+        <label class="sw"><input type="checkbox" data-setting="potionsHud"> Potion Effects HUD (UI)</label>
         <label class="sw"><input type="checkbox" data-setting="pauseOverlays"> Pause all overlays when game not focused</label>
       </div>
 
@@ -130,7 +132,7 @@
           <button class="btn" id="importWpBtn">Import JSON</button>
         </div>
         <div class="row">
-          <span>Auto Death Waypoint</span>
+          <span>Auto Death Waypoint (best-effort)</span>
           <input type="checkbox" data-setting="autoDeathWp">
         </div>
         <div class="row">
@@ -150,21 +152,25 @@
     <div class="tabview" id="tab-player">
       <div class="group"><div class="gtitle">Movement</div>
         <label class="sw"><input type="checkbox" data-setting="autoSprint"> Auto Sprint (UI)</label>
-        <label class="sw"><input type="checkbox" data-setting="autoSneak"> Auto Sneak (UI)</label>
+        <label class="sw"><input type="checkbox" data-setting="autoSneak"> Toggle Sneak (UI)</label>
         <label class="sw"><input type="checkbox" data-setting="hideCursor"> Hide mouse cursor when game is focused</label>
       </div>
 
-      <div class="group"><div class="gtitle">Inventory</div>
-        <label class="sw"><input type="checkbox" data-setting="quickSort"> QuickSort Button (UI)</label>
-        <label class="sw"><input type="checkbox" data-setting="equipBest"> Quick Equip Best (UI)</label>
-      </div>
-
-      <div class="group"><div class="gtitle">Macros</div>
-        <div class="row"><span>Macro 1 Key</span><input class="keycap" id="macro1Key" value="F6" readonly></div>
-        <div class="row"><span>Macro 1 Cmds (; separated)</span><input id="macro1Cmds" placeholder="/spawn; /msg friend hi"></div>
-        <div class="row"><span>Macro 2 Key</span><input class="keycap" id="macro2Key" value="F7" readonly></div>
-        <div class="row"><span>Macro 2 Cmds</span><input id="macro2Cmds" placeholder="/home"></div>
-        <button class="btn" id="saveMacrosBtn">Save Macros</button>
+      <div class="group"><div class="gtitle">Improve FPS</div>
+        <div class="row"><span>Preset</span>
+          <select id="fpsPreset">
+            <option value="quality">Quality</option>
+            <option value="balanced">Balanced</option>
+            <option value="ultra">Ultra (max FPS)</option>
+          </select>
+        </div>
+        <div class="row"><span>Render Scale (%)</span>
+          <input type="range" min="50" max="100" value="100" data-setting="renderScale">
+        </div>
+        <label class="sw"><input type="checkbox" data-setting="limit60"> Limit to 60 FPS (browser hint)</label>
+        <label class="sw"><input type="checkbox" data-setting="pauseWhenHidden"> Pause game when tab hidden (browser hint)</label>
+        <button class="btn" id="applyFpsBtn">Apply FPS Boost</button>
+        <div class="tip">Render Scale reduces the iframe resolution and upscales it — huge FPS gains on Chromebooks.</div>
       </div>
     </div>
 
@@ -214,7 +220,7 @@
     <div class="tabview" id="tab-about">
       <p><b>F1shPr0</b> — polished, legit overlays & QoL for Eaglercraft 1.8.8.</p>
       <p>Hotkeys (default): Right Shift (open), Right Ctrl (close), C (hold zoom), B (add waypoint), L (toggle waypoint list).</p>
-      <p>No cheats/wallhacks/ESP. Everything here is UI-level and server-friendly.</p>
+      <p>No cheats/wallhacks. Everything here is UI-level and server-friendly.</p>
     </div>
   </div>
 
