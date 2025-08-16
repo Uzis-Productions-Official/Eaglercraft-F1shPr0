@@ -1,71 +1,94 @@
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: white;
-  overflow: hidden;
+:root{
+  --teal:#00eaff;
+  --bg:#0c1217;
+  --panel:rgba(10,14,18,.9);
+  --border:rgba(0,234,255,.6);
+  --text:#e7f6ff;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; font-family:Inter,Segoe UI,Arial,sans-serif;
+  color:var(--text);
+  background: radial-gradient(1000px 600px at 10% 10%, #123, transparent),
+              radial-gradient(1000px 600px at 90% 90%, #024, transparent),
+              linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  overflow:hidden;
 }
 
-.center-screen {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
+/* Launcher */
+.center-screen{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center}
+.title{font-size:3rem; margin:0 0 .25rem; text-shadow:0 0 20px var(--teal)}
+.subtitle{opacity:.8; margin:.25rem 0 1rem}
+.launch-btn{
+  background:var(--teal); color:#001017; border:0; padding:14px 28px; font-size:1.2rem;
+  border-radius:14px; cursor:pointer; box-shadow:0 0 18px var(--teal); transition:.2s
+}
+.launch-btn:hover{transform:translateY(-1px); box-shadow:0 0 28px var(--teal)}
+
+/* Game wrap */
+.game-wrap{position:relative; width:100vw; height:100vh}
+
+/* HUD */
+.hud{position:absolute; font:700 14px/1.2 monospace; color:var(--teal); text-shadow:1px 1px 2px #000; z-index:10}
+.hud-tl{left:10px; top:10px}
+.hud-tr{right:10px; top:10px; max-width:30vw; text-align:right}
+.hud-br{right:10px; bottom:10px}
+.hud-center{left:50%; top:50%; transform:translate(-50%,-50%); font-size:24px}
+
+/* Minimap */
+#minimap{
+  border:2px solid var(--teal);
+  border-radius:10px; background:rgba(0,0,0,.6);
+  box-shadow:0 0 16px rgba(0,234,255,.3)
 }
 
-.title {
-  font-size: 3em;
-  margin-bottom: 20px;
-  text-shadow: 0px 0px 20px #00eaff;
+/* Crosshair */
+.crosshair{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:0; height:0; pointer-events:none}
+.crosshair.plus::before, .crosshair.plus::after{
+  content:""; position:absolute; background:#fff8; filter:drop-shadow(0 0 3px #fff);
 }
+.crosshair.plus::before{width:24px; height:2px; left:-12px; top:-1px}
+.crosshair.plus::after{width:2px; height:24px; left:-1px; top:-12px}
+.crosshair.dot::before{content:""; position:absolute; width:4px; height:4px; border-radius:50%; background:#fff; box-shadow:0 0 6px #fff8}
+.crosshair.xhair::before{content:"✕"; font-size:18px; color:#fff8}
 
-.launch-btn {
-  background: #00eaff;
-  color: black;
-  padding: 15px 30px;
-  font-size: 1.5em;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  box-shadow: 0px 0px 15px #00eaff;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
-}
-
-.launch-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0px 0px 25px #00eaff;
-}
+/* Fullbright overlay */
+.fullbright{position:absolute; inset:0; background:rgba(255,255,255,.08); mix-blend-mode:screen; pointer-events:none}
+.hidden{display:none}
 
 /* Client Menu */
-.menu-panel {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 300px;
-  padding: 20px;
-  transform: translate(-50%, -50%) scale(0.8);
-  background: rgba(0, 0, 0, 0.8);
-  border: 2px solid #00eaff;
-  border-radius: 16px;
-  text-align: left;
-  box-shadow: 0px 0px 30px rgba(0, 234, 255, 0.5);
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.4s ease;
+.menu-panel{
+  position:fixed; inset:auto auto 6% 50%; transform:translateX(-50%) translateY(20px) scale(.98);
+  width:560px; max-height:80vh; overflow:auto; padding:16px 16px 20px;
+  background:var(--panel); border:2px solid var(--border); border-radius:16px;
+  backdrop-filter: blur(6px); box-shadow:0 8px 40px rgba(0,0,0,.55);
+  opacity:0; pointer-events:none; transition:opacity .25s, transform .25s;
+  z-index:9999;
 }
+.menu-panel.show{opacity:1; pointer-events:auto; transform:translateX(-50%) translateY(0) scale(1)}
+.menu-head{display:flex; align-items:baseline; gap:8px; margin-bottom:8px}
+.brand{font:800 18px/1 Inter; letter-spacing:.5px; color:var(--teal)}
+.hint{opacity:.6; font-size:12px}
 
-.menu-panel h2 {
-  text-align: center;
-  margin-bottom: 15px;
+.tabs{display:flex; gap:6px; margin:8px 0 10px}
+.tab{
+  background:#0a141b; color:var(--text); border:1px solid #17303a; border-radius:9px; padding:8px 12px; cursor:pointer;
 }
+.tab.active{outline:2px solid var(--teal)}
+.tabview{display:none}
+.tabview.active{display:block}
 
-.menu-panel.show {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-  pointer-events: all;
+.sw{display:block; margin:8px 0}
+.row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin:8px 0}
+.row input[type="range"]{width:60%}
+.btn{
+  background:#0e202b; color:var(--text); border:1px solid #204655; border-radius:8px; padding:8px 10px; cursor:pointer
 }
-
-.hidden {
-  display: block;
-}
+.btn:hover{border-color:var(--teal)}
+.wp-head{display:flex; align-items:baseline; justify-content:space-between; margin-top:8px}
+.tiny{font-size:11px; opacity:.7}
+.wp-actions{display:flex; gap:8px; flex-wrap:wrap; margin:8px 0}
+.wp-list{display:grid; grid-template-columns:1fr auto; gap:6px 8px}
+.wp-item{padding:6px 8px; background:#0b151c; border:1px solid #1a2f37; border-radius:8px; font:600 12px/1.2 monospace}
+.wp-actions .btn, .tabs .tab{user-select:none}
